@@ -1,68 +1,84 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trắc nghiệm Kỹ năng Quản lý — 50 câu</title>
-<link rel="stylesheet" href="quiz.css">
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trắc nghiệm Kỹ năng Quản lý — 50 câu</title>
+  <link rel="stylesheet" href="quiz.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
+
 <body>
-<div class="wrap">
-  <section id="screen-info" class="card">
-    <h1 id="title">TRẮC NGHIỆM KỸ NĂNG QUẢN LÝ</h1>
-    <p class="sub" id="subtitle"></p>
-    <form id="infoForm" novalidate>
-      <label for="name">Họ và tên <span style="color:#dc2626">*</span></label>
-      <input id="name" type="text" autocomplete="name" placeholder="Nguyễn Văn A" required>
-      <label for="clazz">Lớp / Đơn vị <span style="color:#dc2626">*</span></label>
-      <input id="clazz" type="text" autocomplete="organization" placeholder="Lớp QL-01" required>
-      <label for="email">Email <span class="meta" id="emailOpt">(nếu có)</span></label>
-      <input id="email" type="email" autocomplete="email" placeholder="ten@email.com">
-      <div class="err" id="infoErr"></div>
-      <button class="btn" type="submit">Bắt đầu làm bài</button>
-      <p class="hint" id="rules"></p>
-    </form>
-  </section>
+  <div class="wrap">
+    <section id="screen-info" class="card">
+      <h1 id="title">TRẮC NGHIỆM KỸ NĂNG QUẢN LÝ</h1>
+      <p class="sub" id="subtitle"></p>
+      <form id="infoForm" novalidate>
+        <label for="name">Họ và tên <span style="color:#dc2626">*</span></label>
+        <input id="name" type="text" autocomplete="name" placeholder="Nguyễn Văn A" required>
+        <label for="clazz">Lớp / Đơn vị <span style="color:#dc2626">*</span></label>
+        <input id="clazz" type="text" autocomplete="organization" placeholder="Lớp QL-01" required>
+        <label for="email">Email <span class="meta" id="emailOpt">(nếu có)</span></label>
+        <input id="email" type="email" autocomplete="email" placeholder="ten@email.com">
+        <div class="err" id="infoErr"></div>
+        <button class="btn" type="submit">Bắt đầu làm bài</button>
+        <p class="hint" id="rules"></p>
+      </form>
+    </section>
 
-  <section id="screen-quiz" class="hidden">
-    <div class="topbar">
-      <div><strong id="whoami"></strong><div class="meta" id="progressText"></div></div>
-      <div class="bar"><span id="progressBar"></span></div>
-      <div class="meta" id="timer"></div>
-    </div>
-    <div class="card"><div id="questions"></div>
-      <button class="btn" id="submitBtn" type="button">Nộp bài</button>
-      <div class="err" id="quizErr"></div>
-    </div>
-  </section>
+    <section id="screen-quiz" class="hidden">
+      <div class="topbar">
+        <div><strong id="whoami"></strong>
+          <div class="meta" id="progressText"></div>
+        </div>
+        <div class="bar"><span id="progressBar"></span></div>
+        <div class="meta" id="timer"></div>
+      </div>
+      <div class="card">
+        <div id="questions"></div>
+        <button class="btn" id="submitBtn" type="button">Nộp bài</button>
+        <div class="err" id="quizErr"></div>
+      </div>
+    </section>
 
-  <section id="screen-result" class="hidden">
-    <div class="card center">
-      <h2>Kết quả bài làm</h2>
-      <div class="score"><span id="scoreNum">0</span><span id="totalNum" style="font-size:24px;color:#64748b"></span></div>
-      <p class="sub" id="resultLine"></p>
-      <div id="saveStatus" class="status warn">Đang lưu kết quả…</div>
-      <button class="btn secondary" id="downloadBtn" type="button">Tải kết quả của tôi (.xlsx)</button>
-      <button class="btn secondary" id="retryBtn" type="button">Làm lại bài</button>
-    </div>
-    <div class="card">
-      <h2>Kết quả theo nhóm kỹ năng</h2>
-      <table><thead><tr><th>Nhóm kỹ năng</th><th>Đúng</th><th>Tỷ lệ</th></tr></thead><tbody id="breakdown"></tbody></table>
-    </div>
-    <div class="card" id="reviewCard">
-      <h2>Đáp án và giải thích</h2>
-      <div id="review"></div>
-    </div>
-  </section>
-</div>
+    <section id="screen-result" class="hidden">
+      <div class="card center">
+        <h2>Kết quả bài làm</h2>
+        <div class="score"><span id="scoreNum">0</span><span id="totalNum" style="font-size:24px;color:#64748b"></span>
+        </div>
+        <p class="sub" id="resultLine"></p>
+        <div id="saveStatus" class="status warn">Đang lưu kết quả…</div>
+        <button class="btn secondary" id="downloadBtn" type="button">Tải kết quả của tôi (.xlsx)</button>
+        <button class="btn secondary" id="retryBtn" type="button">Làm lại bài</button>
+      </div>
+      <div class="card">
+        <h2>Kết quả theo nhóm kỹ năng</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nhóm kỹ năng</th>
+              <th>Đúng</th>
+              <th>Tỷ lệ</th>
+            </tr>
+          </thead>
+          <tbody id="breakdown"></tbody>
+        </table>
+      </div>
+      <div class="card" id="reviewCard">
+        <h2>Đáp án và giải thích</h2>
+        <div id="review"></div>
+      </div>
+    </section>
+  </div>
 
-<script src="config.js"></script>
-<script src="questions.js"></script>
-<script>
-  window.QUIZ_SUBTITLE = "Bài kiểm tra cuối khóa • 50 câu • 7 nhóm kỹ năng";
-  window.QUIZ_PASS = 30;
-</script>
-<script src="quiz.js"></script>
+  <script src="config.js"></script>
+  <script src="questions.js"></script>
+  <script>
+    window.QUIZ_SUBTITLE = "Bài kiểm tra cuối khóa • 50 câu • 7 nhóm kỹ năng";
+    window.QUIZ_PASS = 30;
+  </script>
+  <script src="quiz.js"></script>
 </body>
+
 </html>

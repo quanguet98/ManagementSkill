@@ -1,10 +1,6 @@
 const CONFIG = {
-
-  apiUrl:
-    "https://script.google.com/macros/s/AKfycbwZpApHCoOe5zqervnhPARim45MphDdIk_kdYtnPfuGL5bP-ecoTj6afGJGT-SiwrLycg/exec",
-
-  resultsApiUrl:
-    "https://script.google.com/macros/s/AKfycbwZpApHCoOe5zqervnhPARim45MphDdIk_kdYtnPfuGL5bP-ecoTj6afGJGT-SiwrLycg/exec",
+  apiUrl: "http://localhost:3003/api/quiz",
+  resultsApiUrl: "http://localhost:3003/api/results",
 
   apiTimeoutMs: 15000,
   apiRetryCount: 3,
@@ -13,8 +9,7 @@ const CONFIG = {
 
   quizTitle: "TRẮC NGHIỆM KỸ NĂNG QUẢN LÝ",
 
-  quizSubtitle:
-    "Bài kiểm tra cuối khóa • 50 câu • 7 nhóm kỹ năng",
+  quizSubtitle: "Bài kiểm tra cuối khóa • 50 câu • 7 nhóm kỹ năng",
 
   timeLimitMinutes: 0,
 
@@ -24,5 +19,5 @@ const CONFIG = {
 
   requireEmail: false,
 
-  version: "2.0.0"
+  version: "2.0.0",
 };

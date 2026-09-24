@@ -1,77 +1,192 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trắc nghiệm Kỹ năng Quản lý — Chọn bài test</title>
-<style>
-:root{--card:#fff;--ink:#0f172a;--muted:#64748b;--brand:#1d4ed8;--brand-soft:#e0e7ff;--line:#e2e8f0}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  background:linear-gradient(160deg,#0f172a,#1e3a8a 60%,#312e81);color:var(--ink);min-height:100vh;padding:16px;line-height:1.5}
-.wrap{max-width:980px;margin:0 auto}
-.card{background:var(--card);border-radius:14px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:16px}
-h1{font-size:clamp(20px,4.2vw,28px);margin:0 0 4px}
-h2{font-size:clamp(16px,3vw,20px);margin:0 0 12px}
-.sub{color:var(--muted);font-size:14px;margin:0 0 18px}
-.btn{border:0;border-radius:9px;padding:11px 18px;font-size:15px;font-weight:700;background:var(--brand);color:#fff;cursor:pointer;text-decoration:none;display:inline-block}
-.btn.sec{background:#e2e8f0;color:#0f172a}
-.btn.sm{padding:8px 12px;font-size:13px}
-.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.link{border:1px solid var(--line);border-radius:12px;padding:16px;background:#f8fafc;display:flex;flex-direction:column;gap:9px}
-.link b{font-size:16px}
-.link .u{font-size:12.5px;color:var(--muted);word-break:break-all;background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 9px}
-.link .acts{display:flex;gap:8px;flex-wrap:wrap}
-.tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--brand-soft);color:var(--brand);align-self:flex-start}
-.tag.tl{background:#dcfce7;color:#166534}
-.hint{font-size:12.5px;color:var(--muted);margin-top:14px}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="card">
-    <h1>TRẮC NGHIỆM KỸ NĂNG QUẢN LÝ</h1>
-    <p class="sub">Chọn bài test để bắt đầu. Học viên nhập họ tên, lớp trước khi làm bài.</p>
-    <h2>Các bài test</h2>
-    <div class="links" id="links"></div>
-    <p class="hint">Giáo viên: bấm <b>Copy link</b> để gửi cho học viên • <a href="dashboard.html">Xem bảng điểm cả lớp →</a></p>
-  </div>
-</div>
-
-<script>
-(function(){
-  "use strict";
-  const base = location.href.replace(/[^/]*$/, "");
-  const TESTS = [
-    {f:"30questions.html", t:"Bản tổng quát — 30 câu", d:"Điểm đạt 18/30", cls:""},
-    {f:"50questions.html", t:"Bản tổng quát — 50 câu", d:"Điểm đạt 30/50", cls:""},
-    {f:"tinlanh30.html",   t:"Bản Hội Thánh — 30 câu", d:"Điểm đạt 18/30", cls:"tl"},
-    {f:"tinlanh.html",     t:"Bản Hội Thánh — 50 câu", d:"Điểm đạt 30/50", cls:"tl"}
-  ];
-  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]; }); }
-
-  document.getElementById("links").innerHTML = TESTS.map(function(t){
-    const url = base + t.f;
-    return '<div class="link"><span class="tag '+t.cls+'">'+esc(t.d)+'</span>'
-      + '<b>'+esc(t.t)+'</b>'
-      + '<div class="u">'+esc(url)+'</div>'
-      + '<div class="acts"><a class="btn sm" href="'+esc(t.f)+'">Làm bài</a>'
-      + '<button class="btn sec sm" data-copy="'+esc(url)+'" type="button">Copy link</button></div></div>';
-  }).join("");
-
-  document.getElementById("links").addEventListener("click", function(ev){
-    const b = ev.target.closest("[data-copy]"); if (!b) return;
-    const txt = b.dataset.copy, old = b.textContent;
-    const done = function(){ b.textContent = "✓ Đã copy"; setTimeout(function(){ b.textContent = old; }, 1500); };
-    function fallback(){
-      const ta = document.createElement("textarea");
-      ta.value = txt; document.body.appendChild(ta); ta.select();
-      try { document.execCommand("copy"); done(); } catch(e){ alert(txt); }
-      document.body.removeChild(ta);
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trắc nghiệm Kỹ năng Quản lý — Chọn bài test</title>
+  <style>
+    :root {
+      --card: #fff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --brand: #1d4ed8;
+      --brand-soft: #e0e7ff;
+      --line: #e2e8f0
     }
-    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, fallback); else fallback();
-  });
-})();
-</script>
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(160deg, #0f172a, #1e3a8a 60%, #312e81);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 16px;
+      line-height: 1.5
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+      margin-bottom: 16px
+    }
+
+    h1 {
+      font-size: clamp(20px, 4.2vw, 28px);
+      margin: 0 0 4px
+    }
+
+    h2 {
+      font-size: clamp(16px, 3vw, 20px);
+      margin: 0 0 12px
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 18px
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      background: var(--brand);
+      color: #fff;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block
+    }
+
+    .btn.sec {
+      background: #e2e8f0;
+      color: #0f172a
+    }
+
+    .btn.sm {
+      padding: 8px 12px;
+      font-size: 13px
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px
+    }
+
+    .link {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      gap: 9px
+    }
+
+    .link b {
+      font-size: 16px
+    }
+
+    .link .u {
+      font-size: 12.5px;
+      color: var(--muted);
+      word-break: break-all;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 7px 9px
+    }
+
+    .link .acts {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 99px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      align-self: flex-start
+    }
+
+    .tag.tl {
+      background: #dcfce7;
+      color: #166534
+    }
+
+    .hint {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 14px
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>TRẮC NGHIỆM KỸ NĂNG QUẢN LÝ</h1>
+      <p class="sub">Chọn bài test để bắt đầu. Học viên nhập họ tên, lớp trước khi làm bài.</p>
+      <h2>Các bài test</h2>
+      <div class="links" id="links"></div>
+      <p class="hint">Giáo viên: bấm <b>Copy link</b> để gửi cho học viên • <a href="dashboard.html">Xem bảng điểm cả
+          lớp →</a></p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+      const base = location.href.replace(/[^/]*$/, "");
+      const TESTS = [
+        { f: "30questions.html", t: "Bản tổng quát — 30 câu", d: "Điểm đạt 18/30", cls: "" },
+        { f: "50questions.html", t: "Bản tổng quát — 50 câu", d: "Điểm đạt 30/50", cls: "" },
+        { f: "tinlanh30.html", t: "Bản Hội Thánh — 30 câu", d: "Điểm đạt 18/30", cls: "tl" },
+        { f: "tinlanh.html", t: "Bản Hội Thánh — 50 câu", d: "Điểm đạt 30/50", cls: "tl" }
+      ];
+      function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); }
+
+      document.getElementById("links").innerHTML = TESTS.map(function (t) {
+        const url = base + t.f;
+        return '<div class="link"><span class="tag ' + t.cls + '">' + esc(t.d) + '</span>'
+          + '<b>' + esc(t.t) + '</b>'
+          + '<div class="u">' + esc(url) + '</div>'
+          + '<div class="acts"><a class="btn sm" href="' + esc(t.f) + '">Làm bài</a>'
+          + '<button class="btn sec sm" data-copy="' + esc(url) + '" type="button">Copy link</button></div></div>';
+      }).join("");
+
+      document.getElementById("links").addEventListener("click", function (ev) {
+        const b = ev.target.closest("[data-copy]"); if (!b) return;
+        const txt = b.dataset.copy, old = b.textContent;
+        const done = function () { b.textContent = "✓ Đã copy"; setTimeout(function () { b.textContent = old; }, 1500); };
+        function fallback() {
+          const ta = document.createElement("textarea");
+          ta.value = txt; document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); done(); } catch (e) { alert(txt); }
+          document.body.removeChild(ta);
+        }
+        if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, fallback); else fallback();
+      });
+    })();
+  </script>
 </body>
+
 </html>
